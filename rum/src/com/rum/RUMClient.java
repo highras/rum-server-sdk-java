@@ -5,6 +5,7 @@ import com.fpnn.FPData;
 import com.fpnn.callback.CallbackData;
 import com.fpnn.callback.FPCallback;
 import com.fpnn.encryptor.FPEncryptor;
+import com.fpnn.event.EventData;
 import com.fpnn.nio.ThreadPool;
 import com.rum.json.JsonHelper;
 import com.rum.msgpack.PayloadPacker;
@@ -327,6 +328,27 @@ class BaseClient extends FPClient {
     public void sendQuest(FPData data, FPCallback.ICallback callback, int timeout) {
 
         super.sendQuest(data, this.questCallback(callback), timeout);
+    }
+
+    @Override
+    public CallbackData sendQuest(FPData data, int timeout) {
+
+        CallbackData cbd = null;
+
+        try {
+
+            cbd = super.sendQuest(data, timeout);
+        }catch(Exception ex){
+
+            this.getEvent().fireEvent(new EventData(this, "error", ex));
+        }
+
+        if (cbd != null) {
+
+            this.checkFPCallback(cbd);
+        }
+
+        return cbd;
     }
 
     /**
