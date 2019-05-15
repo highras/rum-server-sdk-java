@@ -37,31 +37,32 @@ public class TestMain {
                 5000
         );
 
-        FPEvent.IListener listener = new FPEvent.IListener() {
+        client.getEvent().addListener("connect", new FPEvent.IListener() {
 
             @Override
             public void fpEvent(EventData event) {
 
-                switch (event.getType()) {
-                    case "connect":
-
-                        System.out.println("base test connect");
-                        break;
-                    case "close":
-
-                        System.out.println("base test closed");
-                        break;
-                    case "error":
-
-                        System.out.println("base test error: " + event.getException().getMessage());
-                        break;
-                }
+                System.out.println("base test connect");
             }
-        };
+        });
 
-        client.getEvent().addListener("connect", listener);
-        client.getEvent().addListener("close", listener);
-        client.getEvent().addListener("error", listener);
+        client.getEvent().addListener("close", new FPEvent.IListener() {
+
+            @Override
+            public void fpEvent(EventData event) {
+
+                System.out.println("base test closed");
+            }
+        });
+
+        client.getEvent().addListener("error", new FPEvent.IListener() {
+
+            @Override
+            public void fpEvent(EventData event) {
+
+                System.out.println("base test error: " + event.getException().getMessage());
+            }
+        });
 
         client.connect();
 
