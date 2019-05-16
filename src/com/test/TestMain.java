@@ -40,7 +40,7 @@ public class TestMain {
         client.getEvent().addListener("connect", new FPEvent.IListener() {
 
             @Override
-            public void fpEvent(EventData event) {
+            public void fpEvent(EventData evd) {
 
                 System.out.println("base test connect");
             }
@@ -49,7 +49,7 @@ public class TestMain {
         client.getEvent().addListener("close", new FPEvent.IListener() {
 
             @Override
-            public void fpEvent(EventData event) {
+            public void fpEvent(EventData evd) {
 
                 System.out.println("base test closed");
             }
@@ -58,9 +58,9 @@ public class TestMain {
         client.getEvent().addListener("error", new FPEvent.IListener() {
 
             @Override
-            public void fpEvent(EventData event) {
+            public void fpEvent(EventData evd) {
 
-                System.out.println("base test error: " + event.getException().getMessage());
+                System.out.println("base test error: " + evd.getException().getMessage());
             }
         });
 
