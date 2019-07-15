@@ -1,5 +1,6 @@
 package com.rum;
 
+import com.fpnn.ErrorRecorder;
 import com.fpnn.FPClient;
 import com.fpnn.FPData;
 import com.fpnn.callback.CallbackData;
@@ -205,9 +206,9 @@ public class RUMClient extends BaseClient {
 
             packer.pack(payload);
             bytes = packer.toByteArray();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
 
-            ex.printStackTrace();
+            ErrorRecorder.getInstance().recordError(ex);
         }
 
         data.setPayload(bytes);
@@ -384,9 +385,9 @@ class BaseClient extends FPClient {
 
                             packer.pack(map);
                             bytes = packer.toByteArray();
-                        } catch (IOException ex) {
+                        } catch (Exception ex) {
 
-                            ex.printStackTrace();
+                            ErrorRecorder.getInstance().recordError(ex);
                         }
 
                         FPData data = new FPData();
@@ -433,7 +434,7 @@ class BaseClient extends FPClient {
             md5Binary = md5.digest();
         } catch (Exception ex) {
 
-            ex.printStackTrace();
+            ErrorRecorder.getInstance().recordError(ex);
             return null;
         }
 
@@ -456,7 +457,7 @@ class BaseClient extends FPClient {
             md5Binary = md5.digest();
         } catch (Exception ex) {
 
-            ex.printStackTrace();
+            ErrorRecorder.getInstance().recordError(ex);
             return null;
         }
 
@@ -526,9 +527,9 @@ class BaseClient extends FPClient {
                 try {
 
                     payload = unpacker.unpack();
-                } catch (IOException ex) {
+                } catch (Exception ex) {
 
-                    ex.printStackTrace();
+                    ErrorRecorder.getInstance().recordError(ex);
                 }
             }
 
@@ -575,7 +576,7 @@ class LoadFile {
             return bos.toByteArray();
         } catch (Exception ex) {
 
-            ex.printStackTrace();
+            ErrorRecorder.getInstance().recordError(ex);
         } finally {
             try {
 
@@ -583,7 +584,7 @@ class LoadFile {
                 bos.close();
             } catch (Exception ex) {
 
-                ex.printStackTrace();
+                ErrorRecorder.getInstance().recordError(ex);
             }
         }
 
