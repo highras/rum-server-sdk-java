@@ -69,7 +69,7 @@ public class RUMClient extends BaseClient {
      */
     public RUMClient(int pid, String secret, String host, int port, boolean reconnect, int timeout) {
 
-        super(host, port, reconnect, timeout, true);
+        super(host, port, reconnect, timeout);
 
         this._pid = pid;
         this._secret = secret;
@@ -302,24 +302,16 @@ public class RUMClient extends BaseClient {
 
 class BaseClient extends FPClient {
 
-    public BaseClient(String endpoint, boolean reconnect, int timeout, boolean startTimerThread) {
+    public BaseClient(String endpoint, boolean reconnect, int timeout) {
 
         super(endpoint, reconnect, timeout);
-
-        if (startTimerThread) {
-
-            ThreadPool.getInstance().startTimerThread();
-        }
+        ThreadPool.getInstance().startTimerThread();
     }
 
-    public BaseClient(String host, int port, boolean reconnect, int timeout, boolean startTimerThread) {
+    public BaseClient(String host, int port, boolean reconnect, int timeout) {
 
         super(host, port, reconnect, timeout);
-
-        if (startTimerThread) {
-
-            ThreadPool.getInstance().startTimerThread();
-        }
+        ThreadPool.getInstance().startTimerThread();
     }
 
     @Override
