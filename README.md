@@ -5,15 +5,34 @@
 ### Create
 
 ```
+RUMClient.RUMRegistration.register();
 RUMClient client = new RUMClient(
-    41000015,
-    "affc562c-8796-4714-b8ae-4b061ca48a6b",
-    "52.83.220.166",
-    13609,
-    true,
-    5000
+    90300011,
+    "18a1ccea-72e1-47c5-a84a-58543be27888",
+    "52.83.220.166:13609",
+    false,
+    5 * 1000,
+    true
 );
-
+client.getEvent().addListener("connect", new FPEvent.IListener() {
+    @Override
+    public void fpEvent(EventData evd) {
+        System.out.println("base test connect");
+        //Send Custom Event
+    }
+});
+client.getEvent().addListener("close", new FPEvent.IListener() {
+    @Override
+    public void fpEvent(EventData evd) {
+        System.out.println("base test closed, retry: " + evd.hasRetry());
+    }
+});
+client.getEvent().addListener("error", new FPEvent.IListener() {
+    @Override
+    public void fpEvent(EventData evd) {
+        evd.getException().printStackTrace();
+    }
+});
 client.connect();
 ```
 
