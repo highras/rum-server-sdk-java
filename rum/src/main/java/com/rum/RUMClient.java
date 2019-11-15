@@ -71,6 +71,20 @@ public class RUMClient {
         this._timeout = timeout;
         this._debug = debug;
         this._initSession = this._eidGenerator.gen();
+        this.init();
+    }
+
+    private FPEvent.IListener _secondListener = null;
+
+    private void init() {
+        final RUMClient self = this;
+        this._secondListener = new FPEvent.IListener() {
+            @Override
+            public void fpEvent(EventData evd) {
+                self.delayConnect(evd.getTimestamp());
+            }
+        };
+        FPManager.getInstance().addSecond(this._secondListener);
         ErrorRecorder.getInstance().setRecorder(new RUMErrorRecorder(this._event, this._debug));
     }
 
@@ -109,6 +123,10 @@ public class RUMClient {
 
         synchronized (self_locker) {
             this._isClose = true;
+            if (this._secondListener != null) {
+                FPManager.getInstance().removeSecond(this._secondListener);
+                this._secondListener = null;
+            }
             this.getEvent().fireEvent(new EventData(this, "close", !this._isClose && this._reconnect));
             this.getEvent().removeListener();
 
