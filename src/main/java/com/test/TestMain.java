@@ -80,7 +80,7 @@ public class TestMain {
                 if (obj != null) {
                     System.out.println("customEvent sent ok");
                 } else {
-                    System.err.println("customEvent err: " + cbd.getException().getMessage());
+                    System.err.println(cbd.getException().getMessage());
                 }
             }
         });
@@ -93,7 +93,7 @@ public class TestMain {
                 if (obj != null) {
                     System.out.println("customEvents sent ok");
                 } else {
-                    System.err.println("customEvents err: " + cbd.getException().getMessage());
+                    System.err.println(cbd.getException().getMessage());
                 }
             }
         });

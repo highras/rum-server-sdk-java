@@ -14,25 +14,6 @@ RUMClient client = new RUMClient(
     5 * 1000,
     true
 );
-client.getEvent().addListener("connect", new FPEvent.IListener() {
-    @Override
-    public void fpEvent(EventData evd) {
-        System.out.println("base test connect");
-        //Send Custom Event
-    }
-});
-client.getEvent().addListener("close", new FPEvent.IListener() {
-    @Override
-    public void fpEvent(EventData evd) {
-        System.out.println("base test closed, retry: " + evd.hasRetry());
-    }
-});
-client.getEvent().addListener("error", new FPEvent.IListener() {
-    @Override
-    public void fpEvent(EventData evd) {
-        evd.getException().printStackTrace();
-    }
-});
 client.connect();
 ```
 
@@ -49,18 +30,13 @@ attrs.put("test", 123);
 attrs.put("xxx", "yyy");
 
 client.customEvent("error", attrs, 5000, new FPCallback.ICallback() {
-
     @Override
     public void callback(CallbackData cbd) {
-
         Object obj = cbd.getPayload();
-
         if (obj != null) {
-
             System.out.println("customEvent sent ok");
         } else {
-
-            System.err.println("customEvent sent err: " + cbd.getException().getMessage());
+            System.err.println(cbd.getException().getMessage());
         }
     }
 });
@@ -81,18 +57,13 @@ events.add(ev_error);
 events.add(ev_info);
 
 client.customEvents(events, 5000, new FPCallback.ICallback() {
-
     @Override
     public void callback(CallbackData cbd) {
-
         Object obj = cbd.getPayload();
-
         if (obj != null) {
-
             System.out.println("customEvents sent ok");
         } else {
-
-            System.err.println("customEvents sent err: " + cbd.getException().getMessage());
+            System.err.println(cbd.getException().getMessage());
         }
     }
 });
@@ -101,29 +72,23 @@ client.customEvents(events, 5000, new FPCallback.ICallback() {
 ### Set Connected、Closed、Error Callback
 ```
 client.getEvent().addListener("connect", new FPEvent.IListener() {
-
     @Override
     public void fpEvent(EventData evd) {
-
         System.out.println("test connect");
     }
 });
 
 client.getEvent().addListener("close", new FPEvent.IListener() {
-
     @Override
     public void fpEvent(EventData evd) {
-
         System.out.println("test closed");
     }
 });
 
 client.getEvent().addListener("error", new FPEvent.IListener() {
-
     @Override
     public void fpEvent(EventData evd) {
-
-        System.out.println("test error: " + evd.getException().getMessage());
+        System.out.println(evd.getException().getMessage());
     }
 });
 ```
